@@ -22,7 +22,7 @@ public sealed class ComparadorMaosPokerTests
     public void Avaliar_DeveIndicarJogadorUmQuandoPossuirClassificacaoMaior()
     {
         var maoJogadorUm = MaoPoker.Criar(CriarCartas("3O", "4C", "5E", "6P", "7E"));
-        var maoJogadorDois = MaoPoker.Criar(CriarCartas("2C", "2E", "7P", "7O", "7C"));
+        var maoJogadorDois = MaoPoker.Criar(CriarCartas("2C", "4E", "7P", "7O", "7C"));
 
         var resultado = ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
 
@@ -40,6 +40,45 @@ public sealed class ComparadorMaosPokerTests
         var acao = () => ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
 
         Assert.Throws<ArgumentException>(acao);
+    }
+
+    [Fact]
+    public void Avaliar_DeveIndicarJogadorUmQuandoQuadraVencerFullHouse()
+    {
+        var maoJogadorUm = MaoPoker.Criar(CriarCartas("9O", "9C", "9E", "9P", "2O"));
+        var maoJogadorDois = MaoPoker.Criar(CriarCartas("2C", "2E", "7P", "7O", "7C"));
+
+        var resultado = ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
+
+        Assert.Equal(ClassificacaoMao.Quadra, resultado.ClassificacaoJogadorUm);
+        Assert.Equal(ClassificacaoMao.FullHouse, resultado.ClassificacaoJogadorDois);
+        Assert.Equal(ResultadoComparacao.JogadorUm, resultado.Resultado);
+    }
+
+    [Fact]
+    public void Avaliar_DeveIndicarJogadorUmQuandoStraightFlushVencerQuadra()
+    {
+        var maoJogadorUm = MaoPoker.Criar(CriarCartas("5E", "6E", "7E", "8E", "9E"));
+        var maoJogadorDois = MaoPoker.Criar(CriarCartas("DO", "DC", "DE", "DP", "2O"));
+
+        var resultado = ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
+
+        Assert.Equal(ClassificacaoMao.StraightFlush, resultado.ClassificacaoJogadorUm);
+        Assert.Equal(ClassificacaoMao.Quadra, resultado.ClassificacaoJogadorDois);
+        Assert.Equal(ResultadoComparacao.JogadorUm, resultado.Resultado);
+    }
+
+    [Fact]
+    public void Avaliar_DeveIndicarJogadorUmQuandoRoyalStraightFlushVencerStraightFlush()
+    {
+        var maoJogadorUm = MaoPoker.Criar(CriarCartas("DC", "JC", "QC", "KC", "AC"));
+        var maoJogadorDois = MaoPoker.Criar(CriarCartas("5E", "6E", "7E", "8E", "9E"));
+
+        var resultado = ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
+
+        Assert.Equal(ClassificacaoMao.RoyalStraightFlush, resultado.ClassificacaoJogadorUm);
+        Assert.Equal(ClassificacaoMao.StraightFlush, resultado.ClassificacaoJogadorDois);
+        Assert.Equal(ResultadoComparacao.JogadorUm, resultado.Resultado);
     }
 
     [Theory]
