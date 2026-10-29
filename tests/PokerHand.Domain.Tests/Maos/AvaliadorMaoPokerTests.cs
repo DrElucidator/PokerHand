@@ -27,6 +27,18 @@ public sealed class AvaliadorMaoPokerTests
         Assert.Equal(ClassificacaoMao.UmPar, classificacao);
     }
 
+    [Theory]
+    [InlineData("5C", "5P", "6E", "6O", "KO")]
+    [InlineData("AC", "AP", "2E", "2C", "4O")]
+    public void Classificar_DeveIdentificarDoisPares(params string[] codigos)
+    {
+        var mao = MaoPoker.Criar(CriarCartas(codigos));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.DoisPares, classificacao);
+    }
+
     private static Carta[] CriarCartas(params string[] codigos)
     {
         return codigos.Select(Carta.Criar).ToArray();
