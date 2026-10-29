@@ -11,6 +11,17 @@ public sealed class MaoPoker
 
     public IReadOnlyList<Carta> Cartas { get; }
 
+    public static MaoPoker Criar(string codigosDasCartas)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(codigosDasCartas);
+
+        var codigos = codigosDasCartas.Split(
+            ' ',
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        return Criar(codigos.Select(Carta.Criar));
+    }
+
     public static MaoPoker Criar(IEnumerable<Carta> cartas)
     {
         ArgumentNullException.ThrowIfNull(cartas);

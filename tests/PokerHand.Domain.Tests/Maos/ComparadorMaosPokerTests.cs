@@ -21,7 +21,7 @@ public sealed class ComparadorMaosPokerTests
     [Fact]
     public void Avaliar_DeveIndicarJogadorUmQuandoPossuirClassificacaoMaior()
     {
-        var maoJogadorUm = MaoPoker.Criar(CriarCartas("3O", "4C", "5E", "6P", "7O"));
+        var maoJogadorUm = MaoPoker.Criar(CriarCartas("3O", "4C", "5E", "6P", "7E"));
         var maoJogadorDois = MaoPoker.Criar(CriarCartas("2C", "2E", "7P", "7O", "7C"));
 
         var resultado = ComparadorMaosPoker.Avaliar(maoJogadorUm, maoJogadorDois);
