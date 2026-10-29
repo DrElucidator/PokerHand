@@ -12,6 +12,11 @@ public static class AvaliadorMaoPoker
             .GroupBy(carta => carta.Valor)
             .ToArray();
 
+        if (gruposPorValor.Any(grupo => grupo.Count() == 4))
+        {
+            return ClassificacaoMao.Quadra;
+        }
+
         if (PossuiFullHouse(gruposPorValor))
         {
             return ClassificacaoMao.FullHouse;
