@@ -1,3 +1,5 @@
+using PokerHand.Domain.Cartas;
+
 namespace PokerHand.Domain.Maos;
 
 public static class AvaliadorMaoPoker
@@ -9,6 +11,11 @@ public static class AvaliadorMaoPoker
         var gruposPorValor = mao.Cartas
             .GroupBy(carta => carta.Valor)
             .ToArray();
+
+        if (PossuiFullHouse(gruposPorValor))
+        {
+            return ClassificacaoMao.FullHouse;
+        }
 
         if (gruposPorValor.Any(grupo => grupo.Count() == 3))
         {
@@ -66,5 +73,11 @@ public static class AvaliadorMaoPoker
             .Select(carta => carta.Naipe)
             .Distinct()
             .Count() == 1;
+    }
+
+    private static bool PossuiFullHouse(IEnumerable<IGrouping<ValorCarta, Carta>> gruposPorValor)
+    {
+        return gruposPorValor.Any(grupo => grupo.Count() == 3)
+            && gruposPorValor.Any(grupo => grupo.Count() == 2);
     }
 }
