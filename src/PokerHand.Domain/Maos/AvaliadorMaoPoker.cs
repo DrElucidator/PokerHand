@@ -14,6 +14,11 @@ public static class AvaliadorMaoPoker
         var possuiFlush = PossuiFlush(mao);
         var possuiSequencia = PossuiSequencia(mao);
 
+        if (PossuiRoyalStraightFlush(mao, possuiFlush, possuiSequencia))
+        {
+            return ClassificacaoMao.RoyalStraightFlush;
+        }
+
         if (possuiFlush && possuiSequencia)
         {
             return ClassificacaoMao.StraightFlush;
@@ -91,5 +96,20 @@ public static class AvaliadorMaoPoker
     {
         return gruposPorValor.Any(grupo => grupo.Count() == 3)
             && gruposPorValor.Any(grupo => grupo.Count() == 2);
+    }
+
+    private static bool PossuiRoyalStraightFlush(MaoPoker mao, bool possuiFlush, bool possuiSequencia)
+    {
+        if (!possuiFlush || !possuiSequencia)
+        {
+            return false;
+        }
+
+        var valoresOrdenados = mao.Cartas
+            .Select(carta => (int)carta.Valor)
+            .Order()
+            .ToArray();
+
+        return valoresOrdenados.SequenceEqual([10, 11, 12, 13, 14]);
     }
 }

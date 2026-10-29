@@ -122,6 +122,18 @@ public sealed class AvaliadorMaoPokerTests
         Assert.Equal(ClassificacaoMao.StraightFlush, classificacao);
     }
 
+    [Theory]
+    [InlineData("DO", "JO", "QO", "KO", "AO")]
+    [InlineData("DE", "JE", "QE", "KE", "AE")]
+    public void Classificar_DeveIdentificarRoyalStraightFlush(params string[] codigos)
+    {
+        var mao = MaoPoker.Criar(CriarCartas(codigos));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.RoyalStraightFlush, classificacao);
+    }
+
     private static Carta[] CriarCartas(params string[] codigos)
     {
         return codigos.Select(Carta.Criar).ToArray();
