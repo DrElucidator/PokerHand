@@ -39,6 +39,18 @@ public sealed class AvaliadorMaoPokerTests
         Assert.Equal(ClassificacaoMao.DoisPares, classificacao);
     }
 
+    [Theory]
+    [InlineData("5C", "5P", "5E", "7P", "KO")]
+    [InlineData("AC", "AP", "AE", "3C", "4O")]
+    public void Classificar_DeveIdentificarTrinca(params string[] codigos)
+    {
+        var mao = MaoPoker.Criar(CriarCartas(codigos));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.Trinca, classificacao);
+    }
+
     private static Carta[] CriarCartas(params string[] codigos)
     {
         return codigos.Select(Carta.Criar).ToArray();

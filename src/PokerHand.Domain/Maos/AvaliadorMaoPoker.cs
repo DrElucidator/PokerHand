@@ -6,8 +6,16 @@ public static class AvaliadorMaoPoker
     {
         ArgumentNullException.ThrowIfNull(mao);
 
-        var quantidadeDePares = mao.Cartas
+        var gruposPorValor = mao.Cartas
             .GroupBy(carta => carta.Valor)
+            .ToArray();
+
+        if (gruposPorValor.Any(grupo => grupo.Count() == 3))
+        {
+            return ClassificacaoMao.Trinca;
+        }
+
+        var quantidadeDePares = gruposPorValor
             .Count(grupo => grupo.Count() == 2);
 
         if (quantidadeDePares == 2)
