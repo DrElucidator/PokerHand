@@ -11,6 +11,13 @@ public static class AvaliadorMaoPoker
         var gruposPorValor = mao.Cartas
             .GroupBy(carta => carta.Valor)
             .ToArray();
+        var possuiFlush = PossuiFlush(mao);
+        var possuiSequencia = PossuiSequencia(mao);
+
+        if (possuiFlush && possuiSequencia)
+        {
+            return ClassificacaoMao.StraightFlush;
+        }
 
         if (gruposPorValor.Any(grupo => grupo.Count() == 4))
         {
@@ -40,12 +47,12 @@ public static class AvaliadorMaoPoker
             return ClassificacaoMao.UmPar;
         }
 
-        if (PossuiFlush(mao))
+        if (possuiFlush)
         {
             return ClassificacaoMao.Flush;
         }
 
-        if (PossuiSequencia(mao))
+        if (possuiSequencia)
         {
             return ClassificacaoMao.Sequencia;
         }
