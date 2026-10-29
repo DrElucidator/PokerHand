@@ -28,6 +28,30 @@ public static class AvaliadorMaoPoker
             return ClassificacaoMao.UmPar;
         }
 
+        if (PossuiSequencia(mao))
+        {
+            return ClassificacaoMao.Sequencia;
+        }
+
         return ClassificacaoMao.CartaAlta;
+    }
+
+    private static bool PossuiSequencia(MaoPoker mao)
+    {
+        var valoresOrdenados = mao.Cartas
+            .Select(carta => (int)carta.Valor)
+            .Order()
+            .ToArray();
+
+        var sequenciaComum = valoresOrdenados
+            .Select((valor, indice) => valor == valoresOrdenados[0] + indice)
+            .All(resultado => resultado);
+
+        if (sequenciaComum)
+        {
+            return true;
+        }
+
+        return valoresOrdenados.SequenceEqual([2, 3, 4, 5, 14]);
     }
 }

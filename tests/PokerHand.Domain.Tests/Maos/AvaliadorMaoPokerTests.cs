@@ -51,6 +51,29 @@ public sealed class AvaliadorMaoPokerTests
         Assert.Equal(ClassificacaoMao.Trinca, classificacao);
     }
 
+    [Theory]
+    [InlineData("9O", "DC", "JE", "QP", "KO")]
+    [InlineData("DO", "JC", "QE", "KP", "AO")]
+    [InlineData("AO", "2C", "3E", "4P", "5O")]
+    public void Classificar_DeveIdentificarSequencia(params string[] codigos)
+    {
+        var mao = MaoPoker.Criar(CriarCartas(codigos));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.Sequencia, classificacao);
+    }
+
+    [Fact]
+    public void Classificar_NaoDeveConsiderarSequenciaComValoresQueNaoSaoConsecutivos()
+    {
+        var mao = MaoPoker.Criar(CriarCartas("KO", "AC", "2E", "3P", "4O"));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.CartaAlta, classificacao);
+    }
+
     private static Carta[] CriarCartas(params string[] codigos)
     {
         return codigos.Select(Carta.Criar).ToArray();
