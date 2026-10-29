@@ -74,6 +74,18 @@ public sealed class AvaliadorMaoPokerTests
         Assert.Equal(ClassificacaoMao.CartaAlta, classificacao);
     }
 
+    [Theory]
+    [InlineData("2C", "5C", "8C", "JC", "AC")]
+    [InlineData("3P", "6P", "9P", "QP", "KP")]
+    public void Classificar_DeveIdentificarFlush(params string[] codigos)
+    {
+        var mao = MaoPoker.Criar(CriarCartas(codigos));
+
+        var classificacao = AvaliadorMaoPoker.Classificar(mao);
+
+        Assert.Equal(ClassificacaoMao.Flush, classificacao);
+    }
+
     private static Carta[] CriarCartas(params string[] codigos)
     {
         return codigos.Select(Carta.Criar).ToArray();

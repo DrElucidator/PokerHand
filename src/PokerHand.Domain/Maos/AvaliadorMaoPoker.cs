@@ -28,6 +28,11 @@ public static class AvaliadorMaoPoker
             return ClassificacaoMao.UmPar;
         }
 
+        if (PossuiFlush(mao))
+        {
+            return ClassificacaoMao.Flush;
+        }
+
         if (PossuiSequencia(mao))
         {
             return ClassificacaoMao.Sequencia;
@@ -53,5 +58,13 @@ public static class AvaliadorMaoPoker
         }
 
         return valoresOrdenados.SequenceEqual([2, 3, 4, 5, 14]);
+    }
+
+    private static bool PossuiFlush(MaoPoker mao)
+    {
+        return mao.Cartas
+            .Select(carta => carta.Naipe)
+            .Distinct()
+            .Count() == 1;
     }
 }
