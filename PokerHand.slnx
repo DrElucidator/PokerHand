@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PokerHand.Console/PokerHand.Console.csproj" />
+    <Project Path="src/PokerHand.Domain/PokerHand.Domain.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PokerHand.Domain.Tests/PokerHand.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
